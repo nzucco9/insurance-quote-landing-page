@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commercial Vehicle Insurance Quote</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #218838;
+        }
+        .add-vehicle-button {
+            margin-bottom: 20px;
+            display: block;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .add-vehicle-button:hover {
+            background-color: #0069d9;
+        }
+        .vehicle-section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .vehicle-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .remove-vehicle-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .remove-vehicle-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Commercial Vehicle Insurance Quote</h1>
+        <form action="http://localhost:3000/submit-quote" method="POST">
+            <label for="company-name">Company Name</label>
+            <input type="text" id="company-name" name="company-name" required>
+
+            <label for="contact-name">Contact Name</label>
+            <input type="text" id="contact-name" name="contact-name" required>
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" name="phone" required>
+
+            <div id="vehicle-container">
+                <div class="vehicle-section">
+                    <h3>Vehicle 1</h3>
+                    <label for="vehicle-type-1">Type of Vehicle</label>
+                    <select id="vehicle-type-1" name="vehicle-type-1" required>
+                        <option value="light-truck">Light Truck</option>
+                        <option value="heavy-truck">Heavy Truck</option>
+                        <option value="bus">Bus</option>
+                        <option value="specialty-vehicle">Specialty Vehicle</option>
+                        <option value="other">Other</option>
+                    </select>
+
+                    <label for="vehicle-usage-1">Vehicle Usage</label>
+                    <textarea id="vehicle-usage-1" name="vehicle-usage-1" rows="4" placeholder="Describe how the vehicle will be used" required></textarea>
+
+                    <label for="drivers-1">Number of Drivers</label>
+                    <input type="number" id="drivers-1" name="drivers-1" required>
+
+                    <label for="driver-experience-1">Driver Experience</label>
+                    <textarea id="driver-experience-1" name="driver-experience-1" rows="4" placeholder="Describe the driving experience of your drivers" required></textarea>
+
+                    <label for="coverage-needed-1">Coverage Needed</label>
+                    <textarea id="coverage-needed-1" name="coverage-needed-1" rows="4" placeholder="Describe the coverage you are looking for" required></textarea>
+                    
+                    <label for="business-location-1">Business Location (City, State)</label>
+                    <input type="text" id="business-location-1" name="business-location-1" required>
+                </div>
+            </div>
+
+            <button type="button" class="add-vehicle-button" onclick="addVehicle()">Add Another Vehicle</button>
+
+            <label for="additional-info">Additional Information</label>
+            <textarea id="additional-info" name="additional-info" rows="4" placeholder="Any other details you want to provide"></textarea>
+
+            <input type="submit" value="Request Quote" class="submit-button">
+        </form>
+    </div>
+
+    <script>
+        let vehicleCount = 1;
+
+        function addVehicle() {
+            vehicleCount++;
+            const vehicleContainer = document.getElementById('vehicle-container');
+
+            const vehicleSection = document.createElement('div');
+            vehicleSection.classList.add('vehicle-section');
+
+            const vehicleTitle = document.createElement('h3');
+            vehicleTitle.textContent = `Vehicle ${vehicleCount}`;
+            vehicleSection.appendChild(vehicleTitle);
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove Vehicle';
+            removeButton.classList.add('remove-vehicle-button');
+            removeButton.type = 'button';
+            removeButton.onclick = () => vehicleContainer.removeChild(vehicleSection);
+            vehicleSection.appendChild(removeButton);
+
+            vehicleSection.innerHTML += `
+                <label for="vehicle-type-${vehicleCount}">Type of Vehicle</label>
+                <select id="vehicle-type-${vehicleCount}" name="vehicle-type-${vehicleCount}" required>
+                    <option value="light-truck">Light Truck</option>
+                    <option value="heavy-truck">Heavy Truck</option>
+                    <option value="bus">Bus</option>
+                    <option value="specialty-vehicle">Specialty Vehicle</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <label for="vehicle-usage-${vehicleCount}">Vehicle Usage</label>
+                <textarea id="vehicle-usage-${vehicleCount}" name="vehicle-usage-${vehicleCount}" rows="4" placeholder="Describe how the vehicle will be used" required></textarea>
+
+                <label for="drivers-${vehicleCount}">Number of Drivers</label>
+                <input type="number" id="drivers-${vehicleCount}" name="drivers-${vehicleCount}" required>
+
+                <label for="driver-experience-${vehicleCount}">Driver Experience</label>
+                <textarea id="driver-experience-${vehicleCount}" name="driver-experience-${vehicleCount}" rows="4" placeholder="Describe the driving experience of your drivers" required></textarea>
+
+                <label for="coverage-needed-${vehicleCount}">Coverage Needed</label>
+                <textarea id="coverage-needed-${vehicleCount}" name="coverage-needed-${vehicleCount}" rows="4" placeholder="Describe the coverage you are looking for" required></textarea>
+                
+                <label for="business-location-${vehicleCount}">Business Location (City, State)</label>
+                <input type="text" id="business-location-${vehicleCount}" name="business-location-${vehicleCount}" required>
+            `;
+
+            vehicleContainer.appendChild(vehicleSection);
+        }
+    </script>
+</body>
+</html>
